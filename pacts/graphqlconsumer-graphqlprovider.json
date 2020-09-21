@@ -1,0 +1,71 @@
+{
+  "consumer": {
+    "name": "GraphQLConsumer"
+  },
+  "provider": {
+    "name": "GraphQLProvider"
+  },
+  "interactions": [
+    {
+      "description": "a hello request",
+      "request": {
+        "method": "POST",
+        "path": "/",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": {
+          "operationName": "Hello",
+          "query": "\n            query Hello {\n              me\n              {\n                id\n                email\n                firstName\n                lastName\n                    \n                createdAt\n                updatedAt\n                \n                memberships {\n                  role {\n                    id\n                    __typename\n                  }\n                  \n                  organisation {\n                    name\n                    __typename\n                  }\n                  __typename\n                }\n                __typename  \n              }\n            }\n              \n            \n        ",
+          "variables": {
+          }
+        },
+        "matchingRules": {
+          "$.body.query": {
+            "match": "regex",
+            "regex": "\\s*query\\s*Hello\\s*\\{\\s*me\\s*\\{\\s*id\\s*email\\s*firstName\\s*lastName\\s*createdAt\\s*updatedAt\\s*memberships\\s*\\{\\s*role\\s*\\{\\s*id\\s*__typename\\s*\\}\\s*organisation\\s*\\{\\s*name\\s*__typename\\s*\\}\\s*__typename\\s*\\}\\s*__typename\\s*\\}\\s*\\}\\s*"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "data": {
+            "me": {
+              "id": "5152fa08-1806-4514-9f66-730e9b59486e",
+              "email": "john@example.com",
+              "firstName": "John",
+              "lastName": "Dory",
+              "createdAt": "2020-02-25T23:52:33.641596Z",
+              "updatedAt": "2020-02-25T23:52:33.641601Z",
+              "memberships": [
+                {
+                  "role": {
+                    "id": "admin",
+                    "__typename": "AdminRole"
+                  },
+                  "organisation": {
+                    "name": "example update xxx",
+                    "__typename": "Organisation"
+                  },
+                  "__typename": "UserMembership"
+                }
+              ],
+              "__typename": "User"
+            }
+          },
+          "extensions": null,
+          "dataPresent": true
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
